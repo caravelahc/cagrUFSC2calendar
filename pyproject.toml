@@ -6,9 +6,8 @@ authors = ["Francisco Vicenzi <cchenzi@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 bs4 = "^0.0.1"
-jupyterlab = "^2.0.1"
 icalendar = "^4.0.4"
 
 [tool.poetry.dev-dependencies]
