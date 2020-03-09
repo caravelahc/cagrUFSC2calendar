@@ -6,10 +6,11 @@ def extract(filename):
     with open(filename) as file:
         soup = bs(file, features="html.parser")
 
-    timetable_html = soup.find(id="j_id119:gradeHorarios")
-    classes_html =  timetable_html.find_all("textarea", {"class": "campo"})
-    time_html = timetable_html.find_all("td", {"class": "horario"})
-    infotable_html = soup.find(id="j_id119:j_id324")
+    classes_html =  soup.find_all("textarea", {"class": "campo"})
+    time_html = soup.find_all("td", {"class": "horario"})
+    infos = soup.find_all("td", {"class": "linha_tabela"})
+
+
 
     keys = [x for x in range(0, 6)]
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -32,7 +33,6 @@ def extract(filename):
         if idx % 6 == 5:
             time_counter += 1
 
-    infos = infotable_html.find_all("td", {"class": "linha_tabela"})
     code2name = {}
     end = len(infos)
     for idx in range(0, end, 4):
