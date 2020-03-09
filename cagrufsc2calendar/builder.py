@@ -22,7 +22,7 @@ def build_calendar(daily_events, day2abrev, day2key, code2name, end_date, repeat
     if not repeat:
         weeks_left = int(days_left.days / 7) + 1
     else:
-        weeks_left = repeat + 1
+        weeks_left = int(repeat) + 1
 
     for day, events in daily_events.items():
         next_day = now + datetime.timedelta(days=(day2key[day] - now.weekday()) % 7)
