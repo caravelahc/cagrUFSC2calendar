@@ -1,3 +1,4 @@
+from constants import day2key, day2abrev
 from icalendar import Calendar, Event, vRecur
 import pytz
 import datetime
@@ -6,7 +7,7 @@ def next_day(given_date, weekday):
     day_shift = (weekday - given_date.weekday()) % 7
     return given_date + datetime.timedelta(days=day_shift)
 
-def build_calendar(daily_events, day2abrev, day2key, code2name, end_date, repeat):
+def build_calendar(daily_events, end_date, repeat):
 
     end_grad = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
@@ -32,9 +33,9 @@ def build_calendar(daily_events, day2abrev, day2key, code2name, end_date, repeat
                 event = Event()
                 begin = ev[0][0]
                 end = ev[0][1]
-                description = ev[1].split("-")[0]
-                title = code2name[description]
-                place = ev[2]
+                title = ev[1]
+                description = ev[2]
+                place = ev[3]
                 event.add('summary', title)
                 event.add('location', place)
                 event.add('description', description)
@@ -57,7 +58,6 @@ def save_file(output, calendar):
     with open(output_file, 'wb') as file:
         file.write(calendar.to_ical())
     print("Done!")
-def build(OUTPUT, END_DATE, REPEAT, daily_events, day2abrev, day2key, code2name):
-    calendar = build_calendar(daily_events, day2abrev, day2key, code2name, \
-                              END_DATE, REPEAT)
+def build(OUTPUT, END_DATE, REPEAT, daily_events):
+    calendar = build_calendar(daily_events, END_DATE, REPEAT)
     save_file(OUTPUT, calendar)

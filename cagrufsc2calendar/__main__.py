@@ -1,5 +1,6 @@
 import os
 import argparse
+import json
 from extractor import extract
 from builder import build
 
@@ -14,21 +15,27 @@ def run():
     parser.add_argument("output", help="nome do arquivo de saida")
     parser.add_argument("--repeat", help="quantidade de repetições dos eventos")
     parser.add_argument("--end", help="data final para computar repetições")
+    parser.add_argument("--json", help="especifica formato de arquivo como .json", action="store_true")
     args = parser.parse_args()
 
     FILE = args.file
     OUTPUT = args.output
     REPEAT = args.repeat
     END_DATE = args.end
+    FILE_JSON = args.json
 
     if not END_DATE:
         END_DATE = "2020-7-14"
 
     print("Starting to extract information from", FILE, "...")
-    daily_events, day2abrev, day2key, code2name = extract(FILE)
-    print("Building calendar...")
-    build(OUTPUT, END_DATE, REPEAT, daily_events, day2abrev, day2key, code2name)
+    if not FILE_JSON:
+        daily_events = extract(FILE)
+    else:
+        with open(FILE, 'r') as file:
+            daily_events = json.load(file)
 
+    print("Building calendar...")
+    build(OUTPUT, END_DATE, REPEAT, daily_events)
 
 if __name__ == "__main__":
   run()
